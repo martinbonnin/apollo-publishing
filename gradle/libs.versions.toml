@@ -1,0 +1,11 @@
+[versions]
+android-sdkversion-compile = "34"
+
+[libraries]
+apollo-api = { module = "com.apollographql.apollo:apollo-api" }
+
+[plugins]
+kotlin-android = { id = "org.jetbrains.kotlin.android", version = "2.1.0" }
+android-library = { id = "com.android.library", version = "8.2.2" }
+apollo = { id = "com.apollographql.apollo", version = "4.1.1-SNAPSHOT" }
+
