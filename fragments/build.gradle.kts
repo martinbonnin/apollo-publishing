@@ -26,23 +26,23 @@ android {
   }
 }
 
+abstract class Wrapper @Inject constructor(val softwareComponentFactory: SoftwareComponentFactory)
+
+val softwareComponent = objects.newInstance(Wrapper::class.java).softwareComponentFactory.adhoc("apollo")
+
 apollo {
   service("service1") {
     packageName.set("com.service1")
     dependsOn(project(":schema"))
     outgoingVariantsConnection {
-      afterEvaluate {
-        addToSoftwareComponent("release")
-      }
+      addToSoftwareComponent(softwareComponent)
     }
   }
   service("service2") {
     packageName.set("com.service2")
     dependsOn(project(":schema"))
     outgoingVariantsConnection {
-      afterEvaluate {
-        addToSoftwareComponent("release")
-      }
+      addToSoftwareComponent(softwareComponent)
     }
   }
 }
@@ -50,10 +50,11 @@ apollo {
 configure<PublishingExtension> {
   publications {
     create<MavenPublication>("default") {
-      afterEvaluate {
-//        from(components["release"])
-        artifact("${layout.buildDirectory.get().asFile}/intermediates/aar_main_jar/release/classes.jar")
-      }
+      artifact("${layout.buildDirectory.get().asFile}/intermediates/aar_main_jar/release/classes.jar")
+    }
+    create<MavenPublication>("apollo") {
+      artifactId = "fragments-apollo"
+      from(softwareComponent)
     }
   }
   repositories {

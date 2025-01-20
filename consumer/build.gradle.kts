@@ -13,11 +13,11 @@ dependencies {
 apollo {
   service("service1") {
     packageName.set("com.service1")
-    dependsOn("com.fragments:fragments:1.0.0")
+    dependsOn("com.fragments:fragments-apollo:1.0.0")
   }
   service("service2") {
     packageName.set("com.service2")
-    dependsOn("com.fragments:fragments:1.0.0")
+    dependsOn("com.fragments:fragments-apollo:1.0.0")
   }
 }
 
