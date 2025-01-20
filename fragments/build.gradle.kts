@@ -51,7 +51,8 @@ configure<PublishingExtension> {
   publications {
     create<MavenPublication>("default") {
       afterEvaluate {
-        from(components["release"])
+//        from(components["release"])
+        artifact("${layout.buildDirectory.get().asFile}/intermediates/aar_main_jar/release/classes.jar")
       }
     }
   }
