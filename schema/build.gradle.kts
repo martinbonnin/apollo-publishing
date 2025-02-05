@@ -1,57 +1,49 @@
 
 plugins {
-  id("org.jetbrains.kotlin.jvm")
+  alias(libs.plugins.kotlin.android)
   alias(libs.plugins.apollo)
+  alias(libs.plugins.android.library)
   id("maven-publish")
 }
 
 group = "com.schema"
 version = "1.0.0"
 
-
-
-java {
-  sourceSets.create("prod")
-  sourceSets.create("staging")
-  registerFeature("prod") {
-    usingSourceSet(sourceSets["prod"])
-  }
-  registerFeature("staging") {
-    usingSourceSet(sourceSets["staging"])
-  }
-}
-
 dependencies {
-  add("prodApi", libs.apollo.api)
-  add("stagingApi", libs.apollo.api)
+  add("api", libs.apollo.api)
 }
 
 apollo {
-  service("prod") {
-    packageName.set("com.example")
+  service("service1") {
+    packageName.set("com.service1")
     generateApolloMetadata.set(true)
     alwaysGenerateTypesMatching.add(".*")
-    outputDirConnection {
-      connectToJavaSourceSet("prod")
-    }
     outgoingVariantsConnection {
       afterEvaluate {
-        addToSoftwareComponent("java")
+        addToSoftwareComponent("release")
       }
     }
   }
-  service("staging") {
-    packageName.set("com.example")
+  service("service2") {
+    packageName.set("com.service2")
     generateApolloMetadata.set(true)
     alwaysGenerateTypesMatching.add(".*")
-    outputDirConnection {
-      connectToJavaSourceSet("staging")
-    }
     outgoingVariantsConnection {
       afterEvaluate {
-        addToSoftwareComponent("java")
+        addToSoftwareComponent("release")
       }
     }
+  }
+}
+
+android {
+  namespace = "com.schema"
+  compileSdk = libs.versions.android.sdkversion.compile.get().toInt()
+  publishing {
+    singleVariant("release")
+  }
+  kotlinOptions {
+    jvmTarget = "1.8"
   }
 }
 
@@ -59,7 +51,7 @@ configure<PublishingExtension> {
   publications {
     create<MavenPublication>("default") {
       afterEvaluate {
-        from(components["java"])
+        from(components["release"])
       }
     }
   }

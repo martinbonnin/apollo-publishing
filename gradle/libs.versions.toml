@@ -6,7 +6,6 @@ apollo-api = { module = "com.apollographql.apollo:apollo-api" }
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version = "2.1.0" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.1.0" }
 android-library = { id = "com.android.library", version = "8.2.2" }
 apollo = { id = "com.apollographql.apollo", version = "4.1.1" }
 
